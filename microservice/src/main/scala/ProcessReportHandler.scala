@@ -1,11 +1,13 @@
 import processors.ReportProcessor
 import com.twitter.finagle.Service
-import com.twitter.finagle.http.{Response,Status}
+import com.twitter.finagle.http.{Response, Status}
 import com.twitter.util.Future
+
+import scala.util.matching.Regex
 
 class ProcessReportHandler(reportProcessor: ReportProcessor) extends Service[AuthorizedRequest, Response]{
 
-  val processReportUrl = "/report/(0-9)/process".r
+  val processReportUrl: Regex = "/report/(0-9)/process".r
 
   override def apply(request: AuthorizedRequest): Future[Response] = request.path match {
     case processReportUrl(processId) =>
