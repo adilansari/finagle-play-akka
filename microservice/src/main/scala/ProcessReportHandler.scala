@@ -7,9 +7,9 @@ import scala.util.matching.Regex
 
 class ProcessReportHandler(reportProcessor: ReportProcessor) extends Service[AuthorizedRequest, Response]{
 
-  val processReportUrl: Regex = "/report/(0-9)/process".r
+  val processReportUrl: Regex = """/report/([0-9]+)/process""".r
 
-  override def apply(request: AuthorizedRequest): Future[Response] = request.path match {
+  override def apply(request: AuthorizedRequest): Future[Response] = request.uri match {
     case processReportUrl(processId) =>
       reportProcessor.processReport(processId.toInt) map { _ =>
         val response = Response(request.version, Status.Ok)
